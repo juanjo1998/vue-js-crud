@@ -13,6 +13,7 @@
             <th scope="col">Id</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th scope="col">Category</th>
             <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
               <th scope="row">{{course.id}}</th>
               <td>{{course.title}}</td>
               <td>{{course.description}}</td>
+              <td>{{course.category_id}}</td>
               <td>
                 <router-link :to="{name:'course',params:{id:course.id}}">
                   <button class="btn btn-primary" style="margin-right:5px;">Show</button>

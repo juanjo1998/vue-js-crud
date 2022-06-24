@@ -8,7 +8,16 @@
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
           <input type="text" class="form-control" id="description" placeholder="Enter description" v-model="course.description">
-        </div>      
+        </div> 
+        <div class="mb-3">
+          <label for="category_id" class="form-label">Category</label>      
+          <select class="form-select" name="category_id" id="category_id" v-model="course.category_id">
+            <option value="" selected disabled>Select category</option>
+            <option :value="category.id" v-for="category in categories" :key="category.id">
+              {{category.name}}
+            </option>
+          </select>
+        </div>        
         <button type="submit" class="btn btn-success w-100">Save</button>
     </form>
   </div>
@@ -25,14 +34,25 @@ export default {
         course:{
           title:'',
           description:'',
-          category_id:2
+          category_id:''
         },  
+
+        /* categories */
+        categories:[]
       }
     },
 
     /* methods */
 
     methods:{
+
+      /* get categories */
+
+      getCategories(){
+        this.axios.get('https://cursos-prueba.tk/api/categories')
+        .then((response) => this.categories = response.data)
+      },
+
       save(){
         this.axios.post('https://cursos-prueba.tk/api/courses/',this.course)
         .then(()=> {
@@ -41,11 +61,17 @@ export default {
           this.course = {
             title:'',
             description:'',
-            category_id:2
+            category_id:''
           }
         })
         .catch(err => console.log(err));
       }
+    },
+
+    /* life cycle */
+
+    created(){
+      this.getCategories()
     }
 }
 </script>

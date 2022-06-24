@@ -9,6 +9,15 @@
           <label for="description" class="form-label">Description</label>
           <input type="text" class="form-control" id="description" placeholder="Enter description" v-model="course.description">
         </div>      
+        <div class="mb-3">
+          <label for="category_id" class="form-label">Category</label>      
+          <select class="form-select" name="category_id" id="category_id" v-model="course.category_id">
+            <option value="" selected disabled>Select category</option>
+            <option :value="category.id" v-for="category in categories" :key="category.id">
+              {{category.name}}
+            </option>
+          </select>
+        </div>    
         <button type="submit" class="btn btn-warning w-100">Update</button>
     </form>
   </div>
@@ -22,11 +31,8 @@ export default {
 
     data(){
         return {
-            course:{
-                title:'',
-                description:'',
-                category_id:2
-            }            
+          categories:[],
+            course:[]   
         }
     },
 
@@ -34,9 +40,16 @@ export default {
 
     methods:{
 
+        /* get categories */
+
+        getCategories(){
+          this.axios.get('https://cursos-prueba.tk/api/categories')
+          .then((response) => this.categories = response.data)
+        },
+
         /* get course */
         getCourse(){
-            this.axios.get('https://cursos-prueba.tk/api/courses/'+this.$route.params.id)
+            this.axios.get('https://cursos-prueba.tk/api/courses/'+this.$route.params.id+'/?included=category')
             .then(response => this.course = response.data)
         },
 
@@ -51,6 +64,7 @@ export default {
     /* life cycles */
 
     created(){
+        this.getCategories()
         this.getCourse()
     }
 }

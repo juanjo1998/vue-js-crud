@@ -19,6 +19,9 @@ export default {
         };
     },
     methods: {
+
+        /* get course */
+
         getCourses() {
             this.axios.get("https://cursos-prueba.tk/api/courses")
             .then(response => {
@@ -28,6 +31,8 @@ export default {
             .catch(err => console.log(err));
         },
 
+        /* delete course */
+        
         deleteCourse(id){
             this.axios.delete("https://cursos-prueba.tk/api/courses/"+id)
             this.courses = this.courses.filter(course => course.id != id)
